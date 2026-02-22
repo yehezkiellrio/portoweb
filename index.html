@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yehezkiel Rio — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0b0e17;
+      --bg2: #111520;
+      --bg3: #171c2e;
+      --surface: #1c2235;
+      --border: rgba(255,255,255,0.07);
+      --gold: #c9a84c;
+      --gold-light: #e8c97a;
+      --gold-dim: rgba(201,168,76,0.15);
+      --white: #f0ede6;
+      --muted: #7a8099;
+      --accent: #4f8ef7;
+      --text: #d4d0c8;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 9999;
+      opacity: 0.4;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 6vw;
+      backdrop-filter: blur(20px);
+      background: rgba(11,14,23,0.75);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 4rem;
+      padding: 8rem 6vw 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* grid lines BG */
+    #hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 70% 40%, black 30%, transparent 70%);
+    }
+
+    /* glow blob */
+    #hero::after {
+      content: '';
+      position: absolute;
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+      top: 50%; right: -100px;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    .hero-text { position: relative; z-index: 1; }
+
+    .hero-tag {
+      display: inline-block;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--gold-dim);
+      padding: 0.3rem 0.8rem;
+      border-radius: 2rem;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      color: var(--white);
+      margin-bottom: 1rem;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+    h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-subtitle {
+      font-size: 1.05rem;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 480px;
+      margin-bottom: 2.5rem;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .hero-cta {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.8rem 1.8rem;
+      border-radius: 0.5rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      transition: all 0.25s;
+      cursor: pointer; border: none;
+    }
+    .btn-primary {
+      background: var(--gold);
+      color: #0b0e17;
+    }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.3); }
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+    /* hero right — stats card */
+    .hero-card {
+      position: relative; z-index: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+    .hero-card::before {
+      content: '';
+      position: absolute; inset: -1px;
+      border-radius: 1.5rem;
+      background: linear-gradient(135deg, rgba(201,168,76,0.3), transparent 50%);
+      z-index: -1;
+    }
+    .card-header {
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .avatar {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), #7a5c1e);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; font-weight: 900;
+      color: var(--bg);
+      flex-shrink: 0;
+    }
+    .card-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .card-role { font-size: 0.75rem; color: var(--muted); margin-top: 0.1rem; }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .stat {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
+      padding: 1rem;
+    }
+    .stat-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
+    .stat-label { font-size: 0.7rem; color: var(--muted); margin-top: 0.2rem; text-transform: uppercase; letter-spacing: 0.08em; }
+
+    .skill-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .tag {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      padding: 0.3rem 0.7rem;
+      border-radius: 0.3rem;
+      background: var(--gold-dim);
+      color: var(--gold-light);
+      border: 1px solid rgba(201,168,76,0.2);
+    }
+    .tag.blue { background: rgba(79,142,247,0.1); color: #7db3ff; border-color: rgba(79,142,247,0.2); }
+
+    /* ── SECTION BASE ── */
+    section {
+      padding: 6rem 6vw;
+    }
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.8rem;
+    }
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .section-intro {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 540px;
+      line-height: 1.7;
+      margin-bottom: 3rem;
+    }
+
+    /* ── ABOUT ── */
+    #about {
+      background: var(--bg2);
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .about-text p {
+      color: var(--text);
+      line-height: 1.8;
+      margin-bottom: 1.2rem;
+      font-size: 0.95rem;
+    }
+    .about-highlights {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .highlight-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--gold);
+      padding: 1.2rem 1.5rem;
+      border-radius: 0 0.75rem 0.75rem 0;
+    }
+    .highlight-title { font-weight: 600; color: var(--white); font-size: 0.9rem; margin-bottom: 0.3rem; }
+    .highlight-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+
+    /* ── EXPERIENCE ── */
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0.4rem; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 3rem;
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: all 0.6s ease;
+    }
+    .timeline-item.visible { opacity: 1; transform: translateX(0); }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -2.35rem; top: 0.3rem;
+      width: 0.7rem; height: 0.7rem;
+      border-radius: 50%;
+      background: var(--gold);
+      border: 2px solid var(--bg);
+      box-shadow: 0 0 8px rgba(201,168,76,0.5);
+    }
+    .timeline-date {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.4rem;
+    }
+    .timeline-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.2rem;
+    }
+    .timeline-company {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+    .timeline-body {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
+      padding: 1.2rem 1.5rem;
+    }
+    .timeline-body ul {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 0.5rem;
+    }
+    .timeline-body ul li {
+      font-size: 0.85rem;
+      color: var(--text);
+      line-height: 1.6;
+      padding-left: 1rem;
+      position: relative;
+    }
+    .timeline-body ul li::before {
+      content: '›';
+      position: absolute; left: 0;
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    /* ── SKILLS ── */
+    #skills { background: var(--bg2); }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .skill-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      transition: border-color 0.2s, transform 0.2s;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.2s;
+    }
+    .skill-card.visible { opacity: 1; transform: translateY(0); }
+    .skill-card:hover { border-color: rgba(201,168,76,0.4); transform: translateY(-4px) !important; }
+    .skill-icon {
+      font-size: 1.8rem; margin-bottom: 0.8rem;
+    }
+    .skill-card h3 {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-family: 'Space Mono', monospace;
+    }
+    .skill-list {
+      display: flex; flex-wrap: wrap; gap: 0.4rem;
+    }
+    .skill-pill {
+      font-size: 0.72rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 0.25rem;
+      background: var(--bg);
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      overflow: hidden;
+      text-decoration: none;
+      display: block;
+      transition: all 0.25s;
+      opacity: 0; transform: translateY(20px);
+    }
+    .project-card.visible { opacity: 1; transform: translateY(0); }
+    .project-card:hover { border-color: rgba(201,168,76,0.4); transform: translateY(-6px) !important; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+    .project-preview {
+      height: 140px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-preview::before {
+      content: '';
+      position: absolute; inset: 0;
+      opacity: 0.15;
+    }
+    .p1 .project-preview { background: linear-gradient(135deg, #1a2a1a, #0f1f0f); }
+    .p1 .project-preview::before { background: radial-gradient(circle at 50% 50%, #4CAF50, transparent); }
+    .p2 .project-preview { background: linear-gradient(135deg, #1a1a2a, #0f0f1f); }
+    .p2 .project-preview::before { background: radial-gradient(circle at 50% 50%, #3f51b5, transparent); }
+    .p3 .project-preview { background: linear-gradient(135deg, #2a1a1a, #1f0f0f); }
+    .p3 .project-preview::before { background: radial-gradient(circle at 50% 50%, #e53935, transparent); }
+    .project-info { padding: 1.2rem; }
+    .project-type {
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-family: 'Space Mono', monospace;
+      margin-bottom: 0.4rem;
+    }
+    .project-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.4rem;
+    }
+    .project-desc {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.5;
+      margin-bottom: 0.8rem;
+    }
+    .project-link {
+      font-size: 0.72rem;
+      color: var(--gold);
+      font-family: 'Space Mono', monospace;
+      display: flex; align-items: center; gap: 0.3rem;
+    }
+
+    /* ── EDUCATION ── */
+    #education { background: var(--bg2); }
+    .edu-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      max-width: 640px;
+    }
+    .edu-icon {
+      width: 64px; height: 64px;
+      border-radius: 1rem;
+      background: var(--gold-dim);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+      flex-shrink: 0;
+    }
+    .edu-degree {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.3rem;
+    }
+    .edu-school { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.6rem; }
+    .edu-meta {
+      display: flex; gap: 1rem;
+    }
+    .edu-badge {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 0.3rem;
+    }
+    .edu-badge.year { background: var(--bg); border: 1px solid var(--border); color: var(--muted); }
+    .edu-badge.gpa { background: var(--gold-dim); border: 1px solid rgba(201,168,76,0.3); color: var(--gold); }
+
+    /* ── CONTACT ── */
+    #contact {
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #contact::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 60% at 50% 100%, rgba(201,168,76,0.08) 0%, transparent 70%);
+    }
+    .contact-inner { position: relative; z-index: 1; }
+    .contact-links {
+      display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+    .contact-link {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.8rem 1.6rem;
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      text-decoration: none;
+      color: var(--text);
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: all 0.2s;
+      background: var(--surface);
+    }
+    .contact-link:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem 6vw;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    footer a { color: var(--gold); text-decoration: none; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 3rem; height: 2px;
+      background: var(--gold);
+      margin: 1rem 0 2.5rem;
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 900px) {
+      #hero { grid-template-columns: 1fr; padding-top: 7rem; }
+      .hero-card { display: none; }
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .skills-grid { grid-template-columns: 1fr 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 600px) {
+      .skills-grid { grid-template-columns: 1fr; }
+      section { padding: 4rem 5vw; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">YHZ.RIO</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-text">
+    <span class="hero-tag">📍 Kudus, Jawa Tengah</span>
+    <h1>Yehezkiel<br><em>Rio</em> Octoviano<br>Kusuma</h1>
+    <p class="hero-subtitle">
+      Administration & Finance Professional dengan 2+ tahun pengalaman di industri manufaktur dan dealer Honda —
+      dan developer yang juga suka membangun web.
+    </p>
+    <div class="hero-cta">
+      <a href="#experience" class="btn btn-primary">Lihat Pengalaman →</a>
+      <a href="mailto:yehezkielrio17@gmail.com" class="btn btn-outline">Hubungi Saya</a>
+    </div>
+  </div>
+
+  <div class="hero-card">
+    <div class="card-header">
+      <div class="avatar">Y</div>
+      <div>
+        <div class="card-name">Yehezkiel Rio</div>
+        <div class="card-role">Administration Head · Credit Analyst · Web Dev</div>
+      </div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat">
+        <div class="stat-num">2+</div>
+        <div class="stat-label">Tahun Pengalaman</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">3.49</div>
+        <div class="stat-label">IPK Terakhir</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Web Project</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">SAP</div>
+        <div class="stat-label">Certified User</div>
+      </div>
+    </div>
+    <div class="skill-tags">
+      <span class="tag">Account Receivable</span>
+      <span class="tag">Credit Analysis</span>
+      <span class="tag blue">HTML/CSS/JS</span>
+      <span class="tag blue">Python</span>
+      <span class="tag">SAP</span>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">// About Me</div>
+  <h2>Profesional yang<br>serba bisa.</h2>
+  <div class="divider"></div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>
+        Saya adalah profesional di bidang administrasi dan keuangan dengan lebih dari 2 tahun pengalaman. 
+        Karier saya mencakup peran sebagai <strong>Staff Account Receivable & Credit Analyst</strong> di PT Pura Barutama — 
+        salah satu industri manufaktur terbesar di Kudus — dan kini sebagai <strong>Administration Head</strong> 
+        di PT Nagamas Mitra Sejati, dealer resmi Honda.
+      </p>
+      <p>
+        Selain pekerjaan utama, saya juga memiliki passion di dunia web development. 
+        Saya telah membangun beberapa web app internal yang digunakan secara aktif oleh tim operasional, 
+        mulai dari sistem monitoring piutang hingga customer service tracker.
+      </p>
+      <p>
+        Latar belakang S1 Informatika Medis dari Universitas Widya Husada membekali saya kemampuan 
+        analitis yang kuat, yang menjadi fondasi dalam setiap keputusan bisnis dan teknis yang saya ambil.
+      </p>
+    </div>
+    <div class="about-highlights">
+      <div class="highlight-item">
+        <div class="highlight-title">🏢 Administration Head</div>
+        <div class="highlight-desc">Memimpin seluruh operasional administrasi dealer Honda, dari dokumen STNK/BPKB hingga rekonsiliasi penjualan multi-divisi.</div>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-title">📊 Credit Analysis</div>
+        <div class="highlight-desc">Analisa & evaluasi kredit customer, monitoring piutang macet, dan laporan Pareto TOP 10 customer untuk PT Pura Barutama.</div>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-title">💻 Web Developer</div>
+        <div class="highlight-desc">Membangun web application untuk internal perusahaan menggunakan HTML, CSS, JavaScript, dan integrasi database real-time.</div>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-title">✝ Faith & Purpose</div>
+        <div class="highlight-desc">Penulis blog spiritual di yhzinsight.vercel.app, berbagi refleksi iman dan pertumbuhan pribadi dengan ratusan pembaca.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">// Experience</div>
+  <h2>Perjalanan<br>Karier.</h2>
+  <div class="divider"></div>
+
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <div class="timeline-date">JANUARI 2026 — SEKARANG</div>
+      <div class="timeline-title">Administration Head</div>
+      <div class="timeline-company">PT Nagamas Mitra Sejati (Head Office) · Dealer Honda</div>
+      <div class="timeline-body">
+        <ul>
+          <li>Mengelola dan mengawasi seluruh aktivitas administrasi dealer Honda, mencakup penjualan unit, STNK/BPKB, dan layanan purna jual.</li>
+          <li>Mengkoordinasikan tim administrasi dalam proses pembelian unit, kredit, dan pengiriman motor Honda serta monitoring kinerja tim.</li>
+          <li>Mengontrol arus dokumen kendaraan (Faktur, BPKB, STNK) dan memastikan kepatuhan terhadap SOP dealer Honda.</li>
+          <li>Berkolaborasi dengan divisi Sales, Finance, dan Gudang dalam penyusunan laporan penjualan dan kebutuhan distribusi.</li>
+          <li>Melakukan perbaikan sistem administrasi dealer untuk meningkatkan efisiensi dokumen dan kecepatan layanan konsumen.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">DESEMBER 2023 — DESEMBER 2025</div>
+      <div class="timeline-title">Staff Account Receivable & Credit Analyst</div>
+      <div class="timeline-company">PT Pura Barutama (Representative Office Jawa Timur) · Manufaktur</div>
+      <div class="timeline-body">
+        <ul>
+          <li>Analisa dan evaluasi customer baru & lama untuk Term of Payment dan Kredit Limit.</li>
+          <li>Membantu A/R Koordinator dalam laporan piutang, collection, dan analisa credit risk.</li>
+          <li>Monitoring laporan Collection, Piutang Macet, dan analisa customer baru kepada pimpinan setiap awal bulan.</li>
+          <li>Memberikan Credit Opinion mengenai customer yang diajukan untuk proses Unlock.</li>
+          <li>Report Monitoring Pareto Penjualan dan kredit piutang berdasarkan TOP 10 customer.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">DESEMBER 2022 — JANUARI 2023</div>
+      <div class="timeline-title">Humas — Internship</div>
+      <div class="timeline-company">RS Ken Saras · Healthcare</div>
+      <div class="timeline-body">
+        <ul>
+          <li>Menyusun dan menyebarkan informasi layanan rumah sakit melalui media massa, website, dan media sosial.</li>
+          <li>Mengorganisir acara promosi seperti seminar kesehatan dan kegiatan sosial.</li>
+          <li>Menjalin hubungan baik dengan media dan komunitas untuk membangun citra positif rumah sakit.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">OKTOBER — NOVEMBER 2022</div>
+      <div class="timeline-title">Verifikator & Frontliner — Internship</div>
+      <div class="timeline-company">BPJS Kesehatan Semarang</div>
+      <div class="timeline-body">
+        <ul>
+          <li>Verifikasi dan validasi data klaim asuransi kesehatan serta informasi anggota BPJS.</li>
+          <li>Memberikan informasi layanan, prosedur pendaftaran, dan penyelesaian keluhan peserta.</li>
+          <li>Menyusun laporan keakuratan data sesuai kebijakan dan prosedur BPJS Kesehatan.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">// Skills</div>
+  <h2>Kemampuan &<br>Keahlian.</h2>
+  <div class="divider"></div>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-icon">📋</div>
+      <h3>Administration</h3>
+      <div class="skill-list">
+        <span class="skill-pill">Document Control</span>
+        <span class="skill-pill">SOP Management</span>
+        <span class="skill-pill">BPKB/STNK</span>
+        <span class="skill-pill">Rekonsiliasi</span>
+        <span class="skill-pill">Reporting</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">💰</div>
+      <h3>Finance & AR</h3>
+      <div class="skill-list">
+        <span class="skill-pill">Account Receivable</span>
+        <span class="skill-pill">Credit Analysis</span>
+        <span class="skill-pill">Piutang & Collection</span>
+        <span class="skill-pill">SAP</span>
+        <span class="skill-pill">Credit Risk</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">👑</div>
+      <h3>Leadership</h3>
+      <div class="skill-list">
+        <span class="skill-pill">Team Management</span>
+        <span class="skill-pill">Koordinasi Lintas Divisi</span>
+        <span class="skill-pill">Problem Solving</span>
+        <span class="skill-pill">Negosiasi</span>
+        <span class="skill-pill">Evaluasi Kinerja</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">💻</div>
+      <h3>Web Development</h3>
+      <div class="skill-list">
+        <span class="skill-pill">HTML</span>
+        <span class="skill-pill">CSS</span>
+        <span class="skill-pill">JavaScript</span>
+        <span class="skill-pill">Python</span>
+        <span class="skill-pill">Vercel</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🛠️</div>
+      <h3>Tools & Software</h3>
+      <div class="skill-list">
+        <span class="skill-pill">Microsoft Excel</span>
+        <span class="skill-pill">Word & PowerPoint</span>
+        <span class="skill-pill">Outlook & Teams</span>
+        <span class="skill-pill">Canva</span>
+        <span class="skill-pill">Photoshop</span>
+        <span class="skill-pill">Illustrator</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🌐</div>
+      <h3>Languages</h3>
+      <div class="skill-list">
+        <span class="skill-pill">Bahasa Indonesia — Aktif</span>
+        <span class="skill-pill">English — Pasif (TOEFL)</span>
+        <span class="skill-pill">Komunikasi Efektif</span>
+        <span class="skill-pill">Detail Oriented</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">// Projects</div>
+  <h2>Web Projects<br>yang Saya Bangun.</h2>
+  <div class="divider"></div>
+  <div class="projects-grid">
+    <a href="https://yhzinsight.vercel.app" target="_blank" class="project-card p1">
+      <div class="project-preview">✝️</div>
+      <div class="project-info">
+        <div class="project-type">Blog · Personal</div>
+        <div class="project-name">Yehezkiel's Insight</div>
+        <div class="project-desc">Blog pribadi bertema spiritual dan pertumbuhan diri. Dilengkapi dark mode, filter kategori, dan desain editorial yang clean.</div>
+        <div class="project-link">↗ yhzinsight.vercel.app</div>
+      </div>
+    </a>
+    <a href="https://nagamasbbn.vercel.app" target="_blank" class="project-card p2">
+      <div class="project-preview">🏍️</div>
+      <div class="project-info">
+        <div class="project-type">Internal Tool · Honda Dealer</div>
+        <div class="project-name">Nagamas BBN Tracker</div>
+        <div class="project-desc">Sistem monitoring STNK & Nopol outstanding untuk tim administrasi dealer Honda Nagamas. Real-time database dengan status tracking.</div>
+        <div class="project-link">↗ nagamasbbn.vercel.app</div>
+      </div>
+    </a>
+    <a href="https://csnagamas.vercel.app" target="_blank" class="project-card p3">
+      <div class="project-preview">🎧</div>
+      <div class="project-info">
+        <div class="project-type">Internal Tool · Customer Service</div>
+        <div class="project-name">CS Nagamas System</div>
+        <div class="project-desc">Sistem customer service untuk dealer Nagamas Motor, memudahkan pengelolaan pertanyaan dan keluhan pelanggan secara terstruktur.</div>
+        <div class="project-link">↗ csnagamas.vercel.app</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-label">// Education</div>
+  <h2>Latar Belakang<br>Pendidikan.</h2>
+  <div class="divider"></div>
+  <div class="edu-card">
+    <div class="edu-icon">🎓</div>
+    <div>
+      <div class="edu-degree">S1 Informatika Medis</div>
+      <div class="edu-school">Universitas Widya Husada — Semarang</div>
+      <div class="edu-meta">
+        <span class="edu-badge year">2019 – 2023</span>
+        <span class="edu-badge gpa">IPK 3.49</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="section-label">// Contact</div>
+    <h2>Mari Terhubung.</h2>
+    <div class="divider" style="margin: 1rem auto 1.5rem;"></div>
+    <p class="section-intro" style="margin: 0 auto 0;">
+      Terbuka untuk peluang baru, kolaborasi proyek, atau sekadar ngobrol soal admin, keuangan, atau web development.
+    </p>
+    <div class="contact-links">
+      <a href="mailto:yehezkielrio17@gmail.com" class="contact-link">
+        <span>📧</span> yehezkielrio17@gmail.com
+      </a>
+      <a href="tel:+6281334688424" class="contact-link">
+        <span>📱</span> 0813-3468-8424
+      </a>
+      <a href="https://www.instagram.com/yhzrio" target="_blank" class="contact-link">
+        <span>📸</span> @yhzrio
+      </a>
+      <a href="https://yhzinsight.vercel.app" target="_blank" class="contact-link">
+        <span>✝</span> Yehezkiel's Insight
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 Yehezkiel Rio Octoviano Kusuma</span>
+  <span>Built with ♥ · <a href="https://yhzinsight.vercel.app">yhzinsight.vercel.app</a></span>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, entry.target.dataset.delay || 0);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.timeline-item, .skill-card, .project-card').forEach((el, i) => {
+    el.dataset.delay = (i % 3) * 80;
+    observer.observe(el);
+  });
+
+  // Smooth nav active state
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.style.color = '');
+        const active = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+        if (active) active.style.color = 'var(--gold)';
+      }
+    });
+  }, { threshold: 0.5 });
+  sections.forEach(s => navObserver.observe(s));
+</script>
+</body>
+</html>
