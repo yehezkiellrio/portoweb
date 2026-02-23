@@ -1355,6 +1355,10 @@
       background: linear-gradient(135deg, #1f0d12, #2e1218);
     }
 
+    .p4 .proj-thumb {
+      background: linear-gradient(135deg, #1a0d00, #2e1a00);
+    }
+
     .proj-thumb-icon {
       font-size: 3rem;
       position: relative;
@@ -1383,6 +1387,10 @@
 
     .p3 .proj-thumb-glow {
       background: radial-gradient(circle at 50% 50%, #ef5350, transparent);
+    }
+
+    .p4 .proj-thumb-glow {
+      background: radial-gradient(circle at 50% 50%, #FF6D00, transparent);
     }
 
     .proj-body {
@@ -2410,7 +2418,7 @@
     <div class="sec-label reveal">Projects</div>
     <h2 class="reveal">Web Projects<br>yang <em>Saya Bangun</em>.</h2>
     <div class="sec-divider reveal"></div>
-    <p class="sec-intro reveal">Tiga project live yang mencerminkan kemampuan saya dalam membangun solusi digital dari
+    <p class="sec-intro reveal">Empat project live yang mencerminkan kemampuan saya dalam membangun solusi digital dari
       desain hingga deployment — semuanya digunakan secara nyata.</p>
 
     <div class="projects-layout">
@@ -2501,7 +2509,7 @@
         style="transition-delay:0.2s">
         <div class="proj-thumb">
           <div class="proj-thumb-glow"></div>
-          <span class="proj-thumb-icon">🎧</span>
+          <span class="proj-thumb-icon">🏍️</span>
         </div>
         <div class="proj-body">
           <div class="proj-type">Internal Tool · Customer Service</div>
@@ -2539,6 +2547,49 @@
         </div>
       </a>
 
+      <a href="https://crmsystem-eosin.vercel.app" target="_blank" rel="noopener" class="proj-card p4 reveal"
+        style="transition-delay:0.3s">
+        <div class="proj-thumb">
+          <div class="proj-thumb-glow"></div>
+          <span class="proj-thumb-icon">🏍️</span>
+        </div>
+        <div class="proj-body">
+          <div class="proj-type">Internal Tool · CRM · Dealer Honda</div>
+          <div class="proj-name">NagaMas CRM</div>
+          <div class="proj-impact">Live · Sistem Retensi Pelanggan Otomatis</div>
+          <div class="proj-story">
+            <div class="proj-story-item">
+              <div class="proj-story-label">🔍 Masalah</div>
+              <div class="proj-story-val">Jadwal servis gratis (KPB) pelanggan sering terlewat karena pencatatan manual
+                — garansi mesin hangus, dealer kehilangan potensi revenue</div>
+            </div>
+            <div class="proj-story-item">
+              <div class="proj-story-label">💡 Solusi</div>
+              <div class="proj-story-val">Platform CRM internal yang otomatis menghitung timeline KPB, memberi
+                peringatan visual real-time, dan men-generate pesan WhatsApp personal siap kirim — satu klik</div>
+            </div>
+            <div class="proj-story-item">
+              <div class="proj-story-label">🛠 Teknologi</div>
+              <div class="proj-story-val">HTML5, CSS3, Vanilla JavaScript ES6+, LocalStorage, Vercel</div>
+            </div>
+            <div class="proj-story-item">
+              <div class="proj-story-label">📈 Hasil</div>
+              <div class="proj-story-val">Zero pelanggan terlewat — proses reminder manual tergantikan penuh, efisiensi
+                admin meningkat drastis</div>
+            </div>
+          </div>
+          <div class="proj-footer">
+            <div class="proj-live">↗ crmsystem-eosin.vercel.app</div>
+            <div class="proj-tags">
+              <span class="proj-tag">CRM</span>
+              <span class="proj-tag">WhatsApp API</span>
+              <span class="proj-tag">JS</span>
+              <span class="proj-tag">Vercel</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
     </div>
   </section>
 
@@ -2570,8 +2621,8 @@
         <div class="edu-extra">
           <div class="edu-extra-icon">💼</div>
           <div>
-            <div class="edu-extra-title">SAP Certified User</div>
-            <div class="edu-extra-sub">ERP System — Finance Module</div>
+            <div class="edu-extra-title">Akuntansi & Pembukuan</div>
+            <div class="edu-extra-sub">Laporan Keuangan, Jurnal, Rekonsiliasi</div>
           </div>
         </div>
         <div class="edu-extra">
@@ -2664,6 +2715,7 @@
   </footer>
 
   <!-- ─────────── JAVASCRIPT ─────────── -->
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
   <script>
     /* ── CURSOR ── */
     const cursor = document.getElementById('cursor');
@@ -2855,11 +2907,12 @@
 
     /* ── CONTACT CARD HOVER GLOW ── */
     document.querySelectorAll('.contact-card').forEach(card => {
-      card.addEventListener('mouseenter', () => {
-        card.style.boxShadow = '0 12px 32px rgba(200,169,110,0.15)';
-      });
-      card.addEventListener('mouseleave', () => {
-        card.style.boxShadow = '';
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        card.style.setProperty('--mx', x + '%');
+        card.style.setProperty('--my', y + '%');
       });
     });
 
